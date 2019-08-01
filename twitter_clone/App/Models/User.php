@@ -57,6 +57,22 @@ public function getUserPorEmail(){
 	return $stmt->fetchAll(\PDO::FETCH_ASSOC);
 }
 
+public function autenticar(){
+	 $query = "select id,nome,email from users where email = :email and senha = :senha";
+	 $stmt = $this->db->prepare($query);
+	 $stmt->bindValue(':email', $this->__get('email'));
+	 $stmt->bindValue(':senha', $this->__get('senha'));
+	 $stmt->execute();
+
+	 $user = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+	 if($user['id'] != '' && $user['nome'] != ''){
+	 	$this->__set('id', $user['id']);
+	 	$this->__set('nome', $user['nome']);
+	 }
+
+	 return $this;
+}
 
 }
 
